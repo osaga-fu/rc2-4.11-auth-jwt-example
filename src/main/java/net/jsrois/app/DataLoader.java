@@ -6,6 +6,7 @@ import net.jsrois.app.persistence.dinosaur.DinosaurRepository;
 import net.jsrois.app.persistence.user.User;
 import net.jsrois.app.persistence.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,15 +17,18 @@ public class DataLoader {
 
     private final DinosaurRepository dinosaurRepository;
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public DataLoader(@Autowired DinosaurRepository dinosaurRepository,
-                      UserRepository userRepository) {
+                      @Autowired UserRepository userRepository,
+                      @Autowired PasswordEncoder passwordEncoder) {
         this.dinosaurRepository = dinosaurRepository;
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostConstruct
-    /// When the application starts, loads sample data in the database
+        /// When the application starts, loads sample data in the database
     void loadDinosaurData() {
         dinosaurRepository.deleteAll();
         dinosaurRepository.saveAll(
@@ -38,13 +42,13 @@ public class DataLoader {
     }
 
     @PostConstruct
-    /// When the application starts, loads sample data in the database
+        /// When the application starts, loads sample data in the database
     void loadUserData() {
         userRepository.deleteAll();
         userRepository.saveAll(
                 List.of(
-                        user(UUID.randomUUID(), "pepito", "12345"),
-                        user(UUID.randomUUID(), "juanito", "54321")
+                        user(UUID.randomUUID(), "pepito", passwordEncoder.encode("12345")),
+                        user(UUID.randomUUID(), "juanito", passwordEncoder.encode("54321"))
                 )
         );
     }
