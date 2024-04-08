@@ -14,11 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-/**
- * @author mhmdz
- * Created By Zeeshan on 20-05-2023
- * @project oauth-jwt
- */
 
 @Component
 public class JwtService {
@@ -57,7 +52,7 @@ public class JwtService {
     }
 
 
-    public String GenerateToken(String username) {
+    public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, username);
     }
@@ -69,7 +64,7 @@ public class JwtService {
                 .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 1))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000000 * 60 * 1))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
     }
 

@@ -1,0 +1,14 @@
+### Send POST request with json body
+POST localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "username": "pepito",
+  "password": "12345"
+}
+
+> {% client.global.set("auth_token", response.body.accessToken); %}
+
+### GET Dinosaurs
+GET localhost:8080/api/dinosaurs
+Authorization: Bearer {{auth_token}}

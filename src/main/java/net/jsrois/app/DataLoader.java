@@ -1,6 +1,7 @@
 package net.jsrois.app;
 
 import jakarta.annotation.PostConstruct;
+import net.jsrois.app.persistence.auth.RefreshTokenRepository;
 import net.jsrois.app.persistence.dinosaur.Dinosaur;
 import net.jsrois.app.persistence.dinosaur.DinosaurRepository;
 import net.jsrois.app.persistence.user.User;
@@ -18,13 +19,16 @@ public class DataLoader {
     private final DinosaurRepository dinosaurRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     public DataLoader(@Autowired DinosaurRepository dinosaurRepository,
                       @Autowired UserRepository userRepository,
-                      @Autowired PasswordEncoder passwordEncoder) {
+                      @Autowired PasswordEncoder passwordEncoder,
+                      @Autowired RefreshTokenRepository refreshTokenRepository) {
         this.dinosaurRepository = dinosaurRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.refreshTokenRepository = refreshTokenRepository;
     }
 
     @PostConstruct
@@ -44,6 +48,7 @@ public class DataLoader {
     @PostConstruct
         /// When the application starts, loads sample data in the database
     void loadUserData() {
+        refreshTokenRepository.deleteAll();
         userRepository.deleteAll();
         userRepository.saveAll(
                 List.of(
