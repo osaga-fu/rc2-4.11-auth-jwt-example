@@ -5,6 +5,7 @@ class AuthService {
     login(user, password) {
         return Promise.resolve({
             user: user,
+            password: password,
             loggedIn: true
         })
     }
@@ -17,7 +18,7 @@ export const AuthenticationProvider = ({children}) => {
 
     const [session, setSession] = useState({loggedIn: false});
 
-    const login = async ({user, password}) => {
+    const login = async (user, password) => {
         const authService = new AuthService();
 
         const newSession = await authService.login(user, password);
@@ -29,12 +30,21 @@ export const AuthenticationProvider = ({children}) => {
         setSession({loggedIn: false});
     }
 
+    const getAuthenticationHeader = () => {
+        if (!session || !session.user || !session.password) {
+            return "";
+        } else {
+            return `Basic ${btoa(`${session.user}:${session.password}`)}`;
+        }
+    }
+
     const isLoggedIn = () => session.loggedIn
 
     const value = {
         login,
         logout,
-        isLoggedIn
+        isLoggedIn,
+        getAuthenticationHeader
     }
 
     return <AuthenticationContext.Provider value={value}>{children}</AuthenticationContext.Provider>

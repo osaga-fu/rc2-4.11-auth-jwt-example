@@ -1,11 +1,14 @@
 import {useEffect, useState} from "react";
+import {useAuthenticationContext} from "../authentication/AuthenticationContext.jsx";
 
 const DinosaurList = () => {
 
     const [dinosaurs, setDinosaurs] = useState([]);
+    const {getAuthenticationHeader} = useAuthenticationContext();
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/dinosaurs")
+        fetch("http://localhost:8080/api/dinosaurs",
+            {headers: {"Authorization": getAuthenticationHeader()}})
             .then(response => response.json())
             .then(data => setDinosaurs(data))
     }, []);

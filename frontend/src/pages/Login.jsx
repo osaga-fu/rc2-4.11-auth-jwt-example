@@ -14,8 +14,7 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const {name, password} = values;
-        login(name, password)
+        login(values.name, values.password)
             .then(() => navigate("/"));
 
     };
