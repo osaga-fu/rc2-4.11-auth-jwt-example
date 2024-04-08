@@ -41,3 +41,8 @@ Las diferentes ramas del repositorio contienen implementaciones del login/logout
 |-----------|----------------|
 | sec/basic | Basic Auth     |
 | sec/jwt   | JSON Web Token |
+
+## Referencias
+
+- https://medium.com/spring-boot/spring-boot-3-spring-security-6-jwt-authentication-authorization-98702d6313a5
+- https://github.com/FactoriaF5Code/rc2-4.11-auth-jwt-example
